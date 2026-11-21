@@ -112,8 +112,39 @@
     #about ul li { padding-left: 1.1em; position: relative; color: var(--muted); }
     #about ul li::before { content: "—"; position: absolute; left: 0; color: var(--wood-light); }
 
-    /* 메뉴·재고 목록 */
-    #menu-list li, #stock-list li {
+    /* 대표 메뉴: 가로 카드 3개 */
+    #menu-list {
+      display: grid;
+      /* 기본은 가로 3개, 글자를 크게 키우면 자동으로 세로로 쌓임 */
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 4.5rem), 1fr));
+      gap: 8px;
+    }
+    #menu-list li {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 112px;
+      padding: 14px 12px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .menu-name {
+      font-weight: 600;
+      line-height: 1.35;
+      word-break: keep-all; /* 한글 단어 중간에서 줄바꿈하지 않음 */
+      overflow-wrap: anywhere; /* 아주 좁은 화면에서만 단어 안에서 줄바꿈 */
+    }
+    .menu-price {
+      font-weight: 700;
+      font-size: 1.0625rem;
+      color: var(--wood);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 재고 목록 */
+    #stock-list li {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
@@ -121,8 +152,7 @@
       padding: 12px 0;
       border-bottom: 1px dashed var(--line);
     }
-    #menu-list li:last-child, #stock-list li:last-child { border-bottom: 0; padding-bottom: 0; }
-    #menu-list li span:last-child { font-weight: 600; color: var(--wood); font-variant-numeric: tabular-nums; }
+    #stock-list li:last-child { border-bottom: 0; padding-bottom: 0; }
 
     #stock-list li span:last-child {
       font-size: 0.875rem;
@@ -249,11 +279,11 @@
 
     <!-- 3. 메뉴 -->
     <section id="menu">
-      <h2>메뉴</h2>
+      <h2>대표 메뉴</h2>
       <ul id="menu-list">
-        <li><span>핸드드립</span> <span>6,000원</span></li>
-        <li><span>플랫화이트</span> <span>5,000원</span></li>
-        <li><span>바스크 치즈케이크</span> <span>7,000원</span></li>
+        <li><span class="menu-name">핸드드립</span> <span class="menu-price">6,000원</span></li>
+        <li><span class="menu-name">플랫화이트</span> <span class="menu-price">5,000원</span></li>
+        <li><span class="menu-name">바스크 치즈케이크</span> <span class="menu-price">7,000원</span></li>
       </ul>
     </section>
 
@@ -338,7 +368,7 @@
 
     // 메뉴 렌더링
     document.getElementById("menu-list").innerHTML = MENU.map(
-      (m) => `<li><span>${m.name}</span> <span>${won(m.price)}</span></li>`
+      (m) => `<li><span class="menu-name">${m.name}</span> <span class="menu-price">${won(m.price)}</span></li>`
     ).join("");
 
     // 재고 상태: 품절 / 조금 남음(30% 이하) / 넉넉
