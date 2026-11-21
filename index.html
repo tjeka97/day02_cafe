@@ -170,12 +170,20 @@
       color: var(--muted);
       font-size: 0.9375rem;
     }
-    footer p { margin: 4px 0; }
+    /* 전화·인스타를 한 줄에 나란히 → 줄 간격은 좁히고 누르는 영역은 겹치지 않게 */
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      column-gap: 12px;
+    }
+    footer p { margin: 0; }
+    footer p:last-child { flex-basis: 100%; }
     footer a {
       display: inline-flex;
       align-items: center;
       min-height: 44px; /* 손가락으로 누르기 쉬운 최소 크기 */
-      padding: 0 8px;
+      padding: 0 6px;
     }
 
     /* 하단 고정 버튼 */
