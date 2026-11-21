@@ -178,14 +178,46 @@
     }
 
     /* 영업시간 */
-    #hours dl {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 8px 16px;
-      margin: 0;
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
     }
-    #hours dt { color: var(--muted); }
-    #hours dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+    .hours-table { width: 100%; border-collapse: collapse; }
+    .hours-table thead th {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: left;
+      padding: 0 12px 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hours-table thead th:last-child { text-align: right; }
+    .hours-table tbody th,
+    .hours-table tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px dashed var(--line);
+    }
+    .hours-table tbody tr:last-child th,
+    .hours-table tbody tr:last-child td { border-bottom: 0; }
+    .hours-table tbody th { text-align: left; font-weight: 600; white-space: nowrap; }
+    .hours-table tbody td { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .hours-table .closed th,
+    .hours-table .closed td { color: var(--muted); font-weight: 400; }
+    /* 오늘 요일 강조 */
+    .hours-table .today th,
+    .hours-table .today td { background: var(--cream); color: var(--wood-dark); }
+    .hours-table .today th { border-radius: 10px 0 0 10px; }
+    .hours-table .today td { border-radius: 0 10px 10px 0; }
+    .today-tag {
+      margin-left: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--wood-dark);
+      color: var(--paper);
+      font-size: 0.75rem;
+      font-weight: 600;
+      vertical-align: 1px;
+    }
 
     /* 위치 */
     address { font-style: normal; font-weight: 600; margin-bottom: 4px; }
@@ -309,14 +341,22 @@
     <!-- 6. 영업시간 -->
     <section id="hours">
       <h2>영업시간</h2>
-      <dl>
-        <dt>평일 (화~금)</dt>
-        <dd>08:00 – 20:00</dd>
-        <dt>주말 (토·일)</dt>
-        <dd>10:00 – 18:00</dd>
-        <dt>휴무</dt>
-        <dd>매주 월요일</dd>
-      </dl>
+      <table class="hours-table">
+        <caption class="sr-only">요일별 영업시간</caption>
+        <thead>
+          <tr><th scope="col">요일</th><th scope="col">영업시간</th></tr>
+        </thead>
+        <!-- 스크립트가 HOURS 데이터로 다시 그리고 오늘 요일을 강조함 -->
+        <tbody id="hours-body">
+          <tr class="closed"><th scope="row">월</th><td>휴무</td></tr>
+          <tr><th scope="row">화</th><td>08:00 – 20:00</td></tr>
+          <tr><th scope="row">수</th><td>08:00 – 20:00</td></tr>
+          <tr><th scope="row">목</th><td>08:00 – 20:00</td></tr>
+          <tr><th scope="row">금</th><td>08:00 – 20:00</td></tr>
+          <tr><th scope="row">토</th><td>10:00 – 18:00</td></tr>
+          <tr><th scope="row">일</th><td>10:00 – 18:00</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- 7. 위치 -->
@@ -394,6 +434,21 @@
       if (h >= end) return { text: "영업 종료", open: false };
       return { text: `영업 중 · ${end}시까지`, open: true };
     }
+
+    // 요일별 영업시간 표 (월요일부터)
+    const DAY_NAMES = ["일", "월", "화", "수", "목", "금", "토"];
+    const pad = (h) => String(h).padStart(2, "0") + ":00";
+    function renderHours() {
+      const today = new Date().getDay();
+      document.getElementById("hours-body").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
+        const h = HOURS[d];
+        const cls = [h ? "" : "closed", d === today ? "today" : ""].join(" ").trim();
+        const tag = d === today ? '<span class="today-tag">오늘</span>' : "";
+        return `<tr${cls ? ` class="${cls}"` : ""}><th scope="row">${DAY_NAMES[d]}${tag}</th>` +
+               `<td>${h ? `${pad(h[0])} – ${pad(h[1])}` : "휴무"}</td></tr>`;
+      }).join("");
+    }
+    renderHours();
 
     const statusEl = document.getElementById("open-status");
     function renderStatus() {
