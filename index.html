@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="김포 걸포동 베이커리카페 브루잉로드 — 매일 아침 볶는 싱글오리진과 프랑스 장인의 빵">
+  <title>브루잉로드 | 김포 걸포동 베이커리카페</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap&text=BrewingRoad%20">
+  <style>
+    :root {
+      /* 우드톤 팔레트 */
+      --wood-dark: #4a2f1d;   /* 진한 원목 */
+      --wood: #7a5236;        /* 원목 */
+      --wood-light: #c9a27e;  /* 밝은 원목 */
+      --cream: #f6efe4;       /* 배경 */
+      --paper: #fffaf2;       /* 카드 */
+      --line: #e6d8c3;
+      --text: #3a2a1f;
+      --muted: #66554a;
+      --accent: #2f6b4f;      /* 포인트: 영업 중·넉넉 */
+      --warn: #8a4a12;        /* 조금 남음 */
+
+      --fs-body: 1rem;        /* 16px */
+      --fs-h2: 1.375rem;      /* 22px, 본문의 1.375배 */
+      --fs-h1: 2.5rem;        /* 40px */
+      --radius: 14px;
+      --bar-h: 72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      font-size: var(--fs-body);
+      line-height: 1.6;
+      padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom));
+      -webkit-text-size-adjust: 100%;
+    }
+
+    h1, h2 {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin: 0;
+    }
+
+    a { color: var(--wood); }
+
+    /* 헤더 */
+    header {
+      /* 빵 사진 배경 — 가게 사진으로 바꾸려면 url만 교체 (예: url("bread.jpg")) */
+      background:
+        linear-gradient(180deg, rgba(40,24,14,.55) 0%, rgba(40,24,14,.78) 100%),
+        url("https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=70") center / cover no-repeat;
+      background-color: var(--wood-dark); /* 사진이 안 뜰 때 대비 확보 */
+      color: var(--paper);
+      padding: 72px 20px 48px;
+      text-align: center;
+    }
+    header h1 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+      font-size: 2.75rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-shadow: 0 2px 12px rgba(0,0,0,.35);
+    }
+    header p { margin: 8px 0 0; color: #f6e9d6; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+
+    #open-status {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      background: rgba(255,255,255,.12);
+      color: var(--paper);
+    }
+    #open-status[data-open="true"] { background: var(--accent); }
+    #open-status[data-open="true"]::before { content: "● "; }
+
+    /* 본문 */
+    main {
+      max-width: 560px;
+      margin: -16px auto 0;
+      padding: 0 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+    }
+    section h2 {
+      font-size: var(--fs-h2);
+      color: var(--wood-dark);
+      margin-bottom: 12px;
+    }
+    section p { margin: 0 0 8px; }
+    section p:last-child { margin-bottom: 0; }
+
+    ul { list-style: none; margin: 0; padding: 0; }
+
+    #about ul li { padding-left: 1.1em; position: relative; color: var(--muted); }
+    #about ul li::before { content: "—"; position: absolute; left: 0; color: var(--wood-light); }
+
+    /* 메뉴·재고 목록 */
+    #menu-list li, #stock-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+    #menu-list li:last-child, #stock-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+    #menu-list li span:last-child { font-weight: 600; color: var(--wood); font-variant-numeric: tabular-nums; }
+
+    #stock-list li span:last-child {
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .stock-ok span:last-child  { background: #e3efe7; color: var(--accent); }
+    .stock-low span:last-child { background: #f8e8d6; color: var(--warn); }
+    .stock-out { color: var(--muted); }
+    .stock-out span:first-child { text-decoration: line-through; }
+    .stock-out span:last-child { background: #eee6dc; color: var(--muted); }
+
+    /* 공간 안내 */
+    #space ul { display: flex; flex-wrap: wrap; gap: 8px; }
+    #space li {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      font-size: 0.9375rem;
+    }
+
+    /* 영업시간 */
+    #hours dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 16px;
+      margin: 0;
+    }
+    #hours dt { color: var(--muted); }
+    #hours dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* 위치 */
+    address { font-style: normal; font-weight: 600; margin-bottom: 4px; }
+    #location p { color: var(--muted); }
+
+    /* 푸터 */
+    footer {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 28px 16px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9375rem;
+    }
+    footer p { margin: 4px 0; }
+
+    /* 하단 고정 버튼 */
+    #quick-actions {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(246,239,228,.94);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--line);
+    }
+    #quick-actions a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform .12s ease, background-color .12s ease;
+    }
+    #call-btn { background: var(--wood-dark); color: var(--paper); }
+    #map-btn  { background: var(--paper); color: var(--wood-dark); border: 1.5px solid var(--wood); }
+    #quick-actions a:active { transform: scale(.97); }
+    #quick-actions a:focus-visible, a:focus-visible { outline: 3px solid var(--wood-light); outline-offset: 2px; }
+
+    @media (min-width: 600px) {
+      #quick-actions { max-width: 560px; margin: 0 auto 16px; border: 1px solid var(--line); border-radius: 16px; }
+      header { padding: 80px 20px 56px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #quick-actions a { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 헤더 -->
+  <header id="top">
+    <h1 lang="en" aria-label="Brewing Road 브루잉로드">Brewing Road</h1>
+    <p>매일 아침 볶는 싱글오리진</p>
+    <!-- 2단계: JS로 "영업 중 / 영업 종료 / 오늘 휴무" 표시 -->
+    <p id="open-status">영업 상태 확인 중</p>
+  </header>
+
+  <main>
+
+    <!-- 2. 소개 -->
+    <section id="about">
+      <h2>소개</h2>
+      <p>2019년 걸포동에 문을 연 동네 베이커리카페입니다.</p>
+      <ul>
+        <li>원두를 매장에서 직접 로스팅합니다.</li>
+        <li>프랑스 장인이 만든 빵을 매일 준비합니다.</li>
+      </ul>
+    </section>
+
+    <!-- 3. 메뉴 -->
+    <section id="menu">
+      <h2>메뉴</h2>
+      <ul id="menu-list">
+        <li><span>핸드드립</span> <span>6,000원</span></li>
+        <li><span>플랫화이트</span> <span>5,000원</span></li>
+        <li><span>바스크 치즈케이크</span> <span>7,000원</span></li>
+      </ul>
+    </section>
+
+    <!-- 4. 오늘의 빵 재고 -->
+    <section id="stock">
+      <h2>오늘의 빵 재고</h2>
+      <!-- 2단계: JS 데이터로 품목·수량 렌더링 (빵 품목은 사장님 확인 후 입력) -->
+      <ul id="stock-list">
+        <li>빵 품목 준비 중</li>
+      </ul>
+    </section>
+
+    <!-- 5. 공간 안내 -->
+    <section id="space">
+      <h2>공간 안내</h2>
+      <ul>
+        <li>좌석 8석</li>
+        <li>노트북 사용 가능</li>
+        <li>콘센트 4구</li>
+      </ul>
+    </section>
+
+    <!-- 6. 영업시간 -->
+    <section id="hours">
+      <h2>영업시간</h2>
+      <dl>
+        <dt>평일 (화~금)</dt>
+        <dd>08:00 – 20:00</dd>
+        <dt>주말 (토·일)</dt>
+        <dd>10:00 – 18:00</dd>
+        <dt>휴무</dt>
+        <dd>매주 월요일</dd>
+      </dl>
+    </section>
+
+    <!-- 7. 위치 -->
+    <section id="location">
+      <h2>위치</h2>
+      <address>경기도 김포시 걸포동</address>
+      <p>걸포북변역에서 도보 5분</p>
+    </section>
+
+  </main>
+
+  <!-- 8. 푸터 -->
+  <footer>
+    <p>전화 <a href="tel:031-000-0000">031-000-0000</a></p>
+    <p>인스타그램 <a href="https://www.instagram.com/brewingroad/" target="_blank" rel="noopener">@brewingroad</a></p>
+    <p><small>&copy; 2019 브루잉로드</small></p>
+  </footer>
+
+  <!-- 9. 하단 고정 버튼 (2단계에서 링크 연결) -->
+  <nav id="quick-actions" aria-label="빠른 연결">
+    <a id="call-btn" href="tel:031-000-0000">전화 걸기</a>
+    <a id="map-btn" href="https://map.naver.com/p/search/%EA%B9%80%ED%8F%AC%20%EA%B1%B8%ED%8F%AC%EB%8F%99%20%EB%B8%8C%EB%A3%A8%EC%9E%89%EB%A1%9C%EB%93%9C" target="_blank" rel="noopener">지도 보기</a>
+  </nav>
+
+  <script>
+    // ===== 사장님이 수정하는 곳 =====
+    const MENU = [
+      { name: "핸드드립", price: 6000 },
+      { name: "플랫화이트", price: 5000 },
+      { name: "바스크 치즈케이크", price: 7000 },
+    ];
+
+    // 빵 재고: 아래는 예시 품목입니다. 실제 품목과 수량으로 바꿔 주세요.
+    // left = 남은 개수, total = 하루 준비 개수
+    const BREAD_STOCK = [
+      { name: "크루아상", left: 8, total: 20 },
+      { name: "팽오쇼콜라", left: 2, total: 12 },
+      { name: "바게트", left: 0, total: 10 },
+    ];
+
+    // 요일: 0=일, 1=월 ... 6=토 / 시간은 24시간제 (null = 휴무)
+    const HOURS = {
+      0: [10, 18], 1: null, 2: [8, 20], 3: [8, 20],
+      4: [8, 20], 5: [8, 20], 6: [10, 18],
+    };
+    // ===== 수정하는 곳 끝 =====
+
+    const won = (n) => n.toLocaleString("ko-KR") + "원";
+
+    // 메뉴 렌더링
+    document.getElementById("menu-list").innerHTML = MENU.map(
+      (m) => `<li><span>${m.name}</span> <span>${won(m.price)}</span></li>`
+    ).join("");
+
+    // 재고 상태: 품절 / 조금 남음(30% 이하) / 넉넉
+    function stockLabel(item) {
+      if (item.left <= 0) return { text: "품절", level: "out" };
+      if (item.left / item.total <= 0.3) return { text: "조금 남음", level: "low" };
+      return { text: "넉넉", level: "ok" };
+    }
+
+    document.getElementById("stock-list").innerHTML = BREAD_STOCK.map((b) => {
+      const s = stockLabel(b);
+      const count = b.left > 0 ? ` · ${b.left}개` : "";
+      return `<li class="stock-${s.level}"><span>${b.name}</span> <span>${s.text}${count}</span></li>`;
+    }).join("");
+
+    // 영업 상태 배지
+    function openStatus(now = new Date()) {
+      const today = HOURS[now.getDay()];
+      if (!today) return { text: "오늘 휴무 (월요일)", open: false };
+      const [start, end] = today;
+      const h = now.getHours() + now.getMinutes() / 60;
+      if (h < start) return { text: `영업 전 · ${start}시 오픈`, open: false };
+      if (h >= end) return { text: "영업 종료", open: false };
+      return { text: `영업 중 · ${end}시까지`, open: true };
+    }
+
+    const statusEl = document.getElementById("open-status");
+    const st = openStatus();
+    statusEl.textContent = st.text;
+    statusEl.dataset.open = st.open;
+  </script>
+</body>
+</html>

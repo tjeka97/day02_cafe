@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-21T06:11:28.502Z",
+        "reason": "Claude: user requested 우드톤 design; PRD.md section 7 specifies cream/beige background paired with wood brown"
+      }
+    ]
+  }
+}
