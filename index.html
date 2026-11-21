@@ -64,7 +64,7 @@
     }
     header h1 {
       font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-      font-size: 2.75rem;
+      font-size: min(2.75rem, 14vw); /* 글자 확대 시에도 화면 폭을 넘지 않음 */
       font-weight: 700;
       letter-spacing: 0;
       text-shadow: 0 2px 12px rgba(0,0,0,.35);
@@ -171,6 +171,12 @@
       font-size: 0.9375rem;
     }
     footer p { margin: 4px 0; }
+    footer a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px; /* 손가락으로 누르기 쉬운 최소 크기 */
+      padding: 0 8px;
+    }
 
     /* 하단 고정 버튼 */
     #quick-actions {
@@ -218,7 +224,7 @@
     <h1 lang="en" aria-label="Brewing Road 브루잉로드">Brewing Road</h1>
     <p>매일 아침 볶는 싱글오리진</p>
     <!-- 2단계: JS로 "영업 중 / 영업 종료 / 오늘 휴무" 표시 -->
-    <p id="open-status">영업 상태 확인 중</p>
+    <p id="open-status" role="status" aria-live="polite">영업 상태 확인 중</p>
   </header>
 
   <main>
@@ -352,9 +358,18 @@
     }
 
     const statusEl = document.getElementById("open-status");
-    const st = openStatus();
-    statusEl.textContent = st.text;
-    statusEl.dataset.open = st.open;
+    function renderStatus() {
+      const st = openStatus();
+      // 바뀔 때만 갱신 → 화면 읽기 기능이 같은 문구를 반복해 읽지 않음
+      if (statusEl.textContent !== st.text) statusEl.textContent = st.text;
+      statusEl.dataset.open = st.open;
+    }
+    renderStatus();
+    setInterval(renderStatus, 30 * 1000); // 30초마다 영업 상태 갱신
+    // 휴대폰 화면을 껐다 켜거나 탭으로 돌아오면 즉시 갱신
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) renderStatus();
+    });
   </script>
 </body>
 </html>
