@@ -28,7 +28,6 @@
       --fs-h2: 1.375rem;      /* 22px, 본문의 1.375배 */
       --fs-h1: 2.5rem;        /* 40px */
       --radius: 14px;
-      --bar-h: 72px;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -40,7 +39,6 @@
       font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
       font-size: var(--fs-body);
       line-height: 1.6;
-      padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom));
       -webkit-text-size-adjust: 100%;
     }
 
@@ -176,8 +174,9 @@
 
     /* 하단 고정 버튼 */
     #quick-actions {
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
+      position: sticky; /* 흐름 안에 자리를 차지해 글자를 키워도 내용을 가리지 않음 */
+      z-index: 10;
+      bottom: 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
@@ -203,7 +202,7 @@
     #quick-actions a:focus-visible, a:focus-visible { outline: 3px solid var(--wood-light); outline-offset: 2px; }
 
     @media (min-width: 600px) {
-      #quick-actions { max-width: 560px; margin: 0 auto 16px; border: 1px solid var(--line); border-radius: 16px; }
+      #quick-actions { bottom: 16px; max-width: 560px; margin: 0 auto 16px; border: 1px solid var(--line); border-radius: 16px; }
       header { padding: 80px 20px 56px; }
     }
 
